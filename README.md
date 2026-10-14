@@ -32,7 +32,9 @@ and calls the engine for everything that does not depend on where the values liv
 Requirements
 ------------
 
-- Moodle 5.2 (development branch; the other Moodle versions get their own branch at release)
+- Moodle 5.1 (branch `MOODLE_501_STABLE`; releases `v5.1-rN`), PHP 8.2 or later. Other Moodle
+  versions have their own branches.
+- PostgreSQL 15+, MySQL 8.4+ or MariaDB 10.11+, as Moodle 5.1 requires.
 - Optional: [local_dictionaries](https://github.com/uaiblaine/moodle-local_dictionaries), for
   dictionary columns (code lists with labels). Without it, dictionary columns are typed as text and
   their codes are not checked.

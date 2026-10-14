@@ -26,18 +26,18 @@ concurrency:
 
 jobs:
   # One reusable-workflow call: the Moodle version this branch supports (version.php
-  # $plugin->supported), with the full PHP x DB matrix. At release every supported Moodle version
-  # gets its own MOODLE_<NNN>_STABLE branch with its own job here; keep each branch's job on a
-  # merge between them. PHPUnit and Behat run on every runtime leg.
+  # $plugin->supported), with the full PHP x DB matrix. Every supported Moodle version has its
+  # own MOODLE_<NNN>_STABLE branch with its own job here; keep each branch's job on a merge
+  # between them. PHPUnit and Behat run on every runtime leg.
   #
-  # The engine has no hard dependency. Its two soft companions are installed so that the tests
+  # The engine has no hard dependency. Its soft companions are installed so that the tests
   # needing them run instead of skipping: local_dictionaries from its branch for the same Moodle
   # version, customfield_pattern (Moodle 5.1 and later) from its one branch, main.
-  ci-502:
-    name: Moodle 5.02
+  ci-501:
+    name: Moodle 5.01
     uses: moodle-an-hochschulen/moodle-workflows/.github/workflows/moodle-plugin-ci.yml@main
     with:
-      moodle-core-branch: MOODLE_502_STABLE
+      moodle-core-branch: MOODLE_501_STABLE
       plugin-dependencies: |
-        uaiblaine/moodle-local_dictionaries,MOODLE_502_STABLE
+        uaiblaine/moodle-local_dictionaries,MOODLE_501_STABLE
         uaiblaine/moodle-customfield_pattern,main
