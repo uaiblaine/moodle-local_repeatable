@@ -22,10 +22,17 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['errorcodeinactive'] = 'Set {$a->set}: the code "{$a->code}" of {$a->column} is no longer offered.';
+$string['errorcodeparent'] = 'Set {$a->set}: {$a->column} "{$a->code}" does not belong to {$a->parent} "{$a->parentcode}".';
+$string['errorcodeparentmissing'] = 'Set {$a->set}: choose a value for {$a->parent} before {$a->column}.';
+$string['errorcoderestricted'] = 'Set {$a->set}: {$a->column} is a restricted list. Choose a value an administrator set, or ask for access.';
+$string['errorcodeunknown'] = 'Set {$a->set}: "{$a->code}" is not a code of {$a->column}.';
+$string['errorcolumnrequired'] = 'Set {$a->set}: {$a->column} is required.';
 $string['errorcolumnslimit'] = 'A field can have at most {$a} columns.';
 $string['errorcolumnsrequired'] = 'Add at least one column.';
 $string['errordomaininvalid'] = 'Column "{$a}": choose a dictionary (lowercase letters, digits and underscore).';
 $string['errordomainmissing'] = 'Dictionary not found in local_dictionaries: {$a}.';
+$string['errorinvalidjson'] = 'Invalid repeatable payload; expected a JSON object.';
 $string['errorkeyconflict'] = 'Two columns produce the report column "{$a}": change one of the keys.';
 $string['errorkeyduplicate'] = 'Key used by two columns: {$a}.';
 $string['errorkeyinvalid'] =
@@ -36,6 +43,7 @@ $string['errorlabelrequired'] = 'Column {$a} has no name.';
 $string['errormodeinvalid'] = 'Column "{$a}": choose free text or a dictionary mode.';
 $string['errorparentinvalid'] = 'Column "{$a}" can only depend on an earlier dictionary column.';
 $string['errorparentmismatch'] = 'Column "{$a->column}": the parent column does not use "{$a->parentdomain}", the dictionary holding the parents of "{$a->domain}".';
+$string['errorpattern'] = 'Set {$a->set}, {$a->column}: {$a->error}';
 $string['errorpatternconfig'] = 'Column "{$a->column}": {$a->error}';
 $string['errorpatternunavailable'] =
     'Column "{$a}": pattern columns need the customfield_pattern plugin (Moodle 5.1 or later). Without it, a stored pattern column is kept unchanged and no new one can be added.';
@@ -43,6 +51,8 @@ $string['errorschemainvalid'] = 'The columns are not a valid version 2 schema.';
 $string['errorsublinelimit'] = 'At most {$a} columns can be shown in the subline.';
 $string['errorsublinetitle'] = 'Column "{$a}" is the title and cannot also be in the subline.';
 $string['errortitlecount'] = 'Mark exactly one column as the title of the set.';
+$string['errortoomanysets'] = 'Too many sets: at most {$a} sets are allowed.';
+$string['errorvaluetoolong'] = 'Value too long: each value is limited to {$a} characters.';
 $string['pluginname'] = 'Repeatable sets engine';
 $string['privacy:metadata'] = 'The Repeatable sets engine stores no personal data: each plugin that uses it stores, exports and deletes its own.';
 $string['repeatableset'] = 'Set {$a}';

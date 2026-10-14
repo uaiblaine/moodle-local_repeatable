@@ -15,7 +15,7 @@ settings, capabilities, events, tasks or web services**, and its privacy provide
 `null_provider`. The plugins that store values are adapters: `profilefield_repeatable` today,
 `customfield_repeatable` later. The extraction plan, stage by stage, is
 `moodle-profilefield_repeatable/docs/engine-extraction-design.md`; this repository holds what has
-moved so far (stage B1: schema, payload, SQL, bridges, stored values, privacy exporter). Development
+moved so far (stages B1-B2: schema, payload, SQL, bridges, stored values, privacy exporter, validator). Development
 on `main` = Moodle 5.2 (`$plugin->supported = [502, 502]`, MATURITY_ALPHA); at release it splits
 into one `MOODLE_<NNN>_STABLE` branch per Moodle version, each with its own `version.php` and
 `ci.yml` job. Mounted at `local/repeatable` on the stacks `$plugin->supported` names
@@ -78,6 +78,7 @@ classes/local/schema.php           column schema v2: parse, validate(), keys, re
 classes/local/payload.php          MAX_SETS, MAX_VALUE_LENGTH, normalise(), column_value(), encode()
 classes/local/sql.php              is_postgres(), subitem_value(), column_value() (COALESCE over a legacy label)
 classes/local/stored_values.php    keys_in_use() over the raw payloads an adapter hands in
+classes/local/validator.php        raw_error(), error(), for_storage(), for_editing(); stored payload + can-read closure + companion flags come from the adapter
 classes/local/bridge/dictionaries.php  soft dependency on local_dictionaries (probes, domains, fold_code)
 classes/local/bridge/pattern.php   soft dependency on customfield_pattern (the one door to its api)
 classes/privacy/set_exporter.php   one stored payload as a privacy export writes it
