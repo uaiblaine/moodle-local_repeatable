@@ -16,6 +16,7 @@
 
 namespace local_repeatable\output;
 
+use local_repeatable\local\projection\projector;
 use local_repeatable\local\schema;
 
 /**
@@ -340,7 +341,7 @@ final class sets_renderer {
      *
      * The sets always come from the canonical payload. A projection row only lends its
      * timemodified to the set it still mirrors: a row left stale by a direct write to the
-     * canonical payload ({@see self::canonical_set()}) is ignored.
+     * canonical payload ({@see projector}) is ignored.
      *
      * @return array
      */
@@ -353,7 +354,7 @@ final class sets_renderer {
 
         $timemodifiedbyset = [];
         foreach (($this->syncrows)() as $record) {
-            $canonical = self::canonical_set(json_decode((string)$record->data, true));
+            $canonical = projector::canonical_set(json_decode((string)$record->data, true));
             if ($canonical !== null && !empty($record->timemodified)) {
                 $timemodifiedbyset[(int)$record->set_id] = [$canonical, (int)$record->timemodified];
             }
@@ -361,7 +362,7 @@ final class sets_renderer {
 
         foreach ($displaysets as &$displayset) {
             $stored = $timemodifiedbyset[$displayset['setnumber']] ?? null;
-            $canonical = self::canonical_set($displayset['values']);
+            $canonical = projector::canonical_set($displayset['values']);
             if ($stored !== null && $stored[0] === $canonical) {
                 $displayset['timemodified'] = $stored[1];
             }
@@ -369,25 +370,6 @@ final class sets_renderer {
         unset($displayset);
 
         return $displaysets;
-    }
-
-    /**
-     * Canonical string form of one set, used to compare a stored row with a payload set.
-     *
-     * It must give the same string as the projector's canonical_set() for the same set: the
-     * projector writes the rows this compares against.
-     *
-     * @param mixed $set Decoded set.
-     * @return string|null Null when the set is not an array.
-     */
-    private static function canonical_set($set): ?string {
-        if (!is_array($set)) {
-            return null;
-        }
-
-        ksort($set, SORT_STRING);
-        $json = json_encode($set, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        return $json === false ? null : $json;
     }
 
     /**

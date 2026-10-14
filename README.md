@@ -24,9 +24,9 @@ and calls the engine for everything that does not depend on where the values liv
 - the privacy export of one stored payload, which each adapter's provider writes;
 - the edit widget (the table of sets and the labels of the codes it holds), the column editor of a
   field's definition, and the display of a stored value as an accordion or a plain list, with their
-  templates, styles and JavaScript modules.
-
-The projection writer and the Report Builder entity move here in a later stage of the extraction.
+  templates, styles and JavaScript modules;
+- the projection writer, which keeps an adapter's per-set rows (the table Report Builder lists) a
+  projection of its canonical payloads, and the abstract Report Builder entity over those rows.
 
 
 Requirements

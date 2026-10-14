@@ -33,8 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - `form\column_editor`: the attributes, shapes and validation of a field definition's schema
     textarea.
   - `output\sets_renderer`: one stored payload as an accordion or a plain list. It compares a set
-    with its projection row through its own copy of the projector's `canonical_set()`, which has
-    not moved yet.
+    with its projection row through the projector's `canonical_set()` (moved in stage C3).
   - The templates `edit_form`, `display_accordion` and `display_plain`, and `styles.css`, with every
     `profilefield-repeatable-*` class renamed `local-repeatable-*`.
   - The strings they print (`actioncolumn`, `addnewset`, `newcode`, `removeset`,
@@ -49,3 +48,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `local_repeatable/columneditor` (it enhances `textarea[data-region="local-repeatable-schema"]`)
   and `local_repeatable/displayaccordion`, built in `amd/build`. The strings they read (the column
   editor's and the dictionary search's) are copied unchanged in English and Portuguese.
+- The field's projection writer and Report Builder entity, moved from `profilefield_repeatable`
+  (stage C3) with only namespace and component renames:
+  - `local\projection\store` (an adapter's projection table and owner column),
+    `local\projection\source` (what an adapter provides: its canonical records, schema and projection
+    rows) and `local\projection\projector` (`sync()`, `is_current()`, `canonical_set()`,
+    `reproject_field()`, `write_stale()`, `reproject_record()`, and the row upsert: PostgreSQL
+    `ON CONFLICT` on the unique (dataid, set_id) index, select-then-write elsewhere).
+  - `reportbuilder\local\entities\sets`: the abstract entity of one field as one row per set; the
+    adapter's subclass gives the projection table, the field id, the schema and the availability.
+  - The strings the entity prints (`columnsubitem`, `columnsubitemcode`, `columnsubitemname`,
+    `entityrepeatableset`, `setnumber`), copied unchanged in English and Portuguese.
+  - Their tests: `projection_test` (the field's projector tests plus the engine side of its
+    `reproject_sets_test`) and `sync_test`, on a temporary projection table with the shape of
+    `{profilefield_repeatable_data}` and an in-memory test source (`tests/fixtures/projection_source.php`);
+    `sets_test`, on the entity's column and filter objects. Gates J1-J3, J6-J9, E1-E6, R1 and PT6.

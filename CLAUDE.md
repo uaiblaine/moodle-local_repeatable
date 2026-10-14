@@ -16,8 +16,8 @@ settings, capabilities, events, tasks or web services**, and its privacy provide
 `customfield_repeatable` later. The extraction plan, stage by stage, is
 `moodle-profilefield_repeatable/docs/engine-extraction-design.md`; this repository holds what has
 moved so far (stages B1-B2: schema, payload, SQL, bridges, stored values, privacy exporter, validator;
-C1-C2: edit widget, column editor, display renderer, templates, styles, AMD modules). Development
-on `main` = Moodle 5.2 (`$plugin->supported = [502, 502]`, MATURITY_ALPHA); at release it splits
+C1-C2: edit widget, column editor, display renderer, templates, styles, AMD modules; C3: projection
+writer, Report Builder entity). Development on `main` = Moodle 5.2 (`$plugin->supported = [502, 502]`, MATURITY_ALPHA); at release it splits
 into one `MOODLE_<NNN>_STABLE` branch per Moodle version, each with its own `version.php` and
 `ci.yml` job. Mounted at `local/repeatable` on the stacks `$plugin->supported` names
 (`~/dev/moodle-dev/plugins.conf`, `auto`).
@@ -87,10 +87,13 @@ classes/privacy/provider.php       null_provider
 classes/form/widget.php            edit widget: template context, columns JSON, labels for stored codes, js_call_amd
 classes/form/column_editor.php     definition editor: textarea attributes, canonical JSON, schema errors, locked keys
 classes/output/sets_renderer.php   display: accordion or plain list, label prefetch, pattern formatting
+classes/local/projection/          store (adapter's table + owner column), source (adapter contract), projector (sync, is_current, reproject_*)
+classes/reportbuilder/local/entities/sets.php  abstract entity: one row per set; subclass gives table, field id, schema, availability
 templates/                         edit_form, display_accordion, display_plain (double stashes)
 styles.css                         every rule under a local-repeatable-* class (no Bootstrap 5 utility)
 amd/src/                           repeatable.js (widget), markup.js, dictionary_transport.js, columneditor.js, displayaccordion.js
 tests/generator/lib.php            schema_json(): a v2 schema from labels or column arrays
+tests/fixtures/projection_source.php  test_source: in-memory canonical records + a temporary projection table
 ```
 
 ## Versions
@@ -105,9 +108,11 @@ rely on engine DB state (there is none) — only on engine classes, which autolo
 ### Engine and adapter boundary
 
 - **The engine never calls profile-field or `core_customfield` APIs, never reads an adapter's
-  table, and never decides who may see or edit a value.** The adapter reads its own canonical rows
-  and passes the payloads, the stored (never the submitted) payload and every authorisation decision
-  as arguments: the security decisions stay next to the API that knows whose data it is.
+  table other than the projection table the adapter names (`projection\store`, the `sets`
+  constructor), and never decides who may see or edit a value.** The adapter reads its own
+  canonical rows and passes the payloads, the stored (never the submitted) payload and every
+  authorisation decision as arguments: the security decisions stay next to the API that knows whose
+  data it is.
 - `stored_values::keys_in_use()` takes an iterable of raw payloads, never a field id: the adapter
   reads them from its canonical store (never the projection, which a direct write can leave stale)
   and closes its own recordset.
@@ -120,8 +125,8 @@ rely on engine DB state (there is none) — only on engine classes, which autolo
   stored codes, lookup and pattern availability, locked keys, the sync-rows callable): the adapter
   owns the profile, course or other context. `amd/build/**` ships with `amd/src/**` and a version
   bump; run `mdl grunt m502 local/repeatable` after every `amd/src` edit.
-- `sets_renderer::canonical_set()` is a private copy of the projector's until stage C3 moves the
-  projector here; both must produce the same string, or a set's sync time is lost.
+- `sets_renderer` dates a set through `projector::canonical_set()`, the string the projector compares
+  rows by: a second copy would let the two drift and a set lose its sync time.
 - Stylesheet rules sit under `local-repeatable-*` classes only, never a bare Bootstrap class, and
   use no Bootstrap 5 utility (`tests/bootstrap_compat_test.php` enforces it): the UI renders inside
   core pages on 4.5 and 5.x where the plugin owns no ancestor to gate on.
@@ -157,6 +162,13 @@ rely on engine DB state (there is none) — only on engine classes, which autolo
 
 - Schemas come from the generator's `schema_json()`. The engine owns no table: SQL tests run on a
   temporary table (`create_temp_table()`), dropped in `tearDown()`.
+- Projector and entity tests use `tests/fixtures/projection_source.php`: `test_source` keeps the
+  canonical records in memory and creates a temporary table with the shape of
+  `{profilefield_repeatable_data}`, including the unique (dataid, set_id) index PostgreSQL's
+  `ON CONFLICT` names. `sync_test` proves the upsert on it; each family runs one branch, so judge the
+  projector from both. Entity gates are held on column and filter objects (`format_value()`,
+  `get_is_available()`, `get_options()`); saved-report identifiers and the adapter's
+  `is_available()` stay the adapter's tests.
 - Tests that need a companion skip without it, and those describing its absence skip with it; CI
   installs both companions, so the absence tests run only on a stack without them.
 - `tests/privacy/provider_test.php` asserts `component_is_compliant()`: plugin CI never runs core's
