@@ -15,7 +15,8 @@ settings, capabilities, events, tasks or web services**, and its privacy provide
 `null_provider`. The plugins that store values are adapters: `profilefield_repeatable` today,
 `customfield_repeatable` later. The extraction plan, stage by stage, is
 `moodle-profilefield_repeatable/docs/engine-extraction-design.md`; this repository holds what has
-moved so far (stages B1-B2: schema, payload, SQL, bridges, stored values, privacy exporter, validator). Development
+moved so far (stages B1-B2: schema, payload, SQL, bridges, stored values, privacy exporter, validator;
+C1-C2: edit widget, column editor, display renderer, templates, styles, AMD modules). Development
 on `main` = Moodle 5.2 (`$plugin->supported = [502, 502]`, MATURITY_ALPHA); at release it splits
 into one `MOODLE_<NNN>_STABLE` branch per Moodle version, each with its own `version.php` and
 `ci.yml` job. Mounted at `local/repeatable` on the stacks `$plugin->supported` names
@@ -83,6 +84,12 @@ classes/local/bridge/dictionaries.php  soft dependency on local_dictionaries (pr
 classes/local/bridge/pattern.php   soft dependency on customfield_pattern (the one door to its api)
 classes/privacy/set_exporter.php   one stored payload as a privacy export writes it
 classes/privacy/provider.php       null_provider
+classes/form/widget.php            edit widget: template context, columns JSON, labels for stored codes, js_call_amd
+classes/form/column_editor.php     definition editor: textarea attributes, canonical JSON, schema errors, locked keys
+classes/output/sets_renderer.php   display: accordion or plain list, label prefetch, pattern formatting
+templates/                         edit_form, display_accordion, display_plain (double stashes)
+styles.css                         every rule under a local-repeatable-* class (no Bootstrap 5 utility)
+amd/src/                           repeatable.js (widget), markup.js, dictionary_transport.js, columneditor.js, displayaccordion.js
 tests/generator/lib.php            schema_json(): a v2 schema from labels or column arrays
 ```
 
@@ -106,6 +113,18 @@ rely on engine DB state (there is none) — only on engine classes, which autolo
   and closes its own recordset.
 - A string an engine class prints comes from `local_repeatable`; an adapter's own strings
   (`pluginname`, privacy, tasks, datasources) stay in the adapter. A moved string keeps its key.
+
+### UI
+
+- The widget, column editor and renderer take every decision as an argument (can-read closure,
+  stored codes, lookup and pattern availability, locked keys, the sync-rows callable): the adapter
+  owns the profile, course or other context. `amd/build/**` ships with `amd/src/**` and a version
+  bump; run `mdl grunt m502 local/repeatable` after every `amd/src` edit.
+- `sets_renderer::canonical_set()` is a private copy of the projector's until stage C3 moves the
+  projector here; both must produce the same string, or a set's sync time is lost.
+- Stylesheet rules sit under `local-repeatable-*` classes only, never a bare Bootstrap class, and
+  use no Bootstrap 5 utility (`tests/bootstrap_compat_test.php` enforces it): the UI renders inside
+  core pages on 4.5 and 5.x where the plugin owns no ancestor to gate on.
 
 ### Schema and payloads
 

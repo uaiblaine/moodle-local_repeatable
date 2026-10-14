@@ -26,3 +26,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Privacy `null_provider`: the engine stores no personal data.
 - The test generator (`schema_json()`), the PHPUnit tests and the mutation gates of the moved code,
   validator included (`validator_test`, `validator_dictionary_test`, `validator_pattern_test`).
+- The field's user interface, moved from `profilefield_repeatable` (stage C1) with only namespace,
+  component, template, CSS class prefix and file-location renames:
+  - `form\widget`: the edit table, the columns its AMD module reads and the labels of the codes a
+    payload holds (labels of an unreadable domain only for the stored codes).
+  - `form\column_editor`: the attributes, shapes and validation of a field definition's schema
+    textarea.
+  - `output\sets_renderer`: one stored payload as an accordion or a plain list. It compares a set
+    with its projection row through its own copy of the projector's `canonical_set()`, which has
+    not moved yet.
+  - The templates `edit_form`, `display_accordion` and `display_plain`, and `styles.css`, with every
+    `profilefield-repeatable-*` class renamed `local-repeatable-*`.
+  - The strings they print (`actioncolumn`, `addnewset`, `newcode`, `removeset`,
+    `searchplaceholder`, `setcolumn`, `synchronisedat`), copied unchanged in English and Portuguese.
+  - Their tests (`widget_test`, `column_editor_test`, `sets_renderer_test`, written against the
+    engine classes from the field's form-level tests), `bootstrap_compat_test`, and the gates
+    ES1-ES5, X1, D1, K1, B10, B11, B18, PT5, PT12 and PT13.
+- The field's JavaScript, moved from `profilefield_repeatable` (stage C2) with only component,
+  module path and CSS class prefix renames: `local_repeatable/repeatable` (the edit widget),
+  `local_repeatable/markup`, `local_repeatable/dictionary_transport` (the only module that imports
+  `local_dictionaries`, loaded by the widget only for a searched column),
+  `local_repeatable/columneditor` (it enhances `textarea[data-region="local-repeatable-schema"]`)
+  and `local_repeatable/displayaccordion`, built in `amd/build`. The strings they read (the column
+  editor's and the dictionary search's) are copied unchanged in English and Portuguese.

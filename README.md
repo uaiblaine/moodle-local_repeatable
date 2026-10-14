@@ -6,8 +6,9 @@ moodle-local_repeatable
 The shared engine of "repeatable sets": a field value made of any number of sets, each set a row of
 typed columns (free text, dictionary codes, masked patterns).
 
-This plugin is a library. It has no user interface, settings, capabilities, tables or tasks of its
-own, and does nothing on a site by itself. The plugins that store repeatable values use it:
+This plugin is a library. It has no pages, settings, capabilities, tables or tasks of its own, and
+does nothing on a site by itself: its widgets render inside the pages of the plugins that store
+repeatable values, which use it:
 
 - `profilefield_repeatable` (the "Repeatable set" user profile field);
 - `customfield_repeatable` (planned: the same value as a custom field of courses, cohorts and groups).
@@ -20,10 +21,12 @@ and calls the engine for everything that does not depend on where the values liv
 - the stored payload: its caps, the normalisation every reader goes through, and its encoding;
 - the SQL that reads one column of a set's JSON on PostgreSQL and MySQL/MariaDB;
 - the bridges to the two optional companion plugins below;
-- the privacy export of one stored payload, which each adapter's provider writes.
+- the privacy export of one stored payload, which each adapter's provider writes;
+- the edit widget (the table of sets and the labels of the codes it holds), the column editor of a
+  field's definition, and the display of a stored value as an accordion or a plain list, with their
+  templates, styles and JavaScript modules.
 
-The edit widget, the column editor, the display, the projection writer and the Report Builder
-entity move here in later stages of the extraction.
+The projection writer and the Report Builder entity move here in a later stage of the extraction.
 
 
 Requirements
