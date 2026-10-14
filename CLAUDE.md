@@ -17,9 +17,13 @@ settings, capabilities, events, tasks or web services**, and its privacy provide
 `moodle-profilefield_repeatable/docs/engine-extraction-design.md`; this repository holds what has
 moved so far (stages B1-B2: schema, payload, SQL, bridges, stored values, privacy exporter, validator;
 C1-C2: edit widget, column editor, display renderer, templates, styles, AMD modules; C3: projection
-writer, Report Builder entity). Development on `main` = Moodle 5.2 (`$plugin->supported = [502, 502]`, MATURITY_ALPHA); at release it splits
-into one `MOODLE_<NNN>_STABLE` branch per Moodle version, each with its own `version.php` and
-`ci.yml` job. Mounted at `local/repeatable` on the stacks `$plugin->supported` names
+writer, Report Builder entity). **One branch per Moodle version**: `MOODLE_405_STABLE`, `MOODLE_501_STABLE`,
+`MOODLE_502_STABLE` (= `main`) and `MOODLE_503_STABLE`, MATURITY_STABLE, releases
+`v<major>.<minor>-r<N>`; the other three live in worktrees `~/dev/moodle-local_repeatable-405`,
+`-501` and `-503`. Each branch's `version.php` sets `requires` and `supported` to its own Moodle
+version, and its `ci.yml` has one moodle-an-hochschulen job for that core branch (full PHP x DB
+matrix) with the companions of the same branch — **keep `version.php` and `ci.yml` per branch on a
+merge**. Development happens on `main` and the m502 stack. Mounted at `local/repeatable` on the stacks `$plugin->supported` names
 (`~/dev/moodle-dev/plugins.conf`, `auto`).
 
 ## Agent orchestration budget (fleet rule, repeated here on purpose)
