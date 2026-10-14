@@ -23,7 +23,31 @@
  */
 
 $string['actioncolumn'] = 'AÇÃO';
+$string['addcolumn'] = 'Adicionar coluna';
 $string['addnewset'] = 'Adicionar novo conjunto';
+$string['choosefirst'] = 'Escolha antes um valor para {$a}.';
+$string['columncount'] = '{$a->count} de {$a->max} colunas';
+$string['columndomain'] = 'Dicionário';
+$string['columndomainhint'] = 'Do local_dictionaries.';
+$string['columndomainnocompanion'] =
+    'Nome curto de um domínio do local_dictionaries. Sem esse plugin, os valores aparecem como armazenados.';
+$string['columnkey'] = 'Chave';
+$string['columnkeyhint'] =
+    'Gerada a partir do nome; apenas letras minúsculas, dígitos e _. Valores e relatórios ficam guardados sob ela.';
+$string['columnkeylocked'] = 'Bloqueada: há usuários com valores nesta chave.';
+$string['columnlabel'] = 'Nome da coluna';
+$string['columnlabelhint'] = 'Exibido aos usuários. Aceita marcações multilang.';
+$string['columnmode'] = 'Como os usuários preenchem';
+$string['columnnew'] = 'Nova';
+$string['columnparent'] = 'Depende de';
+$string['columnparenthint'] =
+    'Uma coluna de dicionário anterior cujo código restringe esta, por exemplo as cidades do estado escolhido.';
+$string['columnrole'] = 'Papel no conjunto';
+$string['columnsindata'] =
+    '{$a} usuários têm dados neste campo. Colunas com valores armazenados não podem ser removidas e suas chaves estão bloqueadas: renomear essa coluna muda apenas o nome.';
+$string['domainoption'] = '{$a->name} ({$a->itemcount} itens)';
+$string['domainrestricted'] = 'Restrito: só quem pode ver dicionários consegue pesquisá-lo.';
+$string['domainvisible'] = 'Pesquisável por qualquer usuário autenticado.';
 $string['errorcodeinactive'] = 'Conjunto {$a->set}: o código "{$a->code}" de {$a->column} não é mais oferecido.';
 $string['errorcodeparent'] = 'Conjunto {$a->set}: {$a->column} "{$a->code}" não pertence a {$a->parent} "{$a->parentcode}".';
 $string['errorcodeparentmissing'] = 'Conjunto {$a->set}: escolha um valor para {$a->parent} antes de {$a->column}.';
@@ -55,11 +79,50 @@ $string['errorsublinetitle'] = 'A coluna "{$a}" é o título e não pode estar t
 $string['errortitlecount'] = 'Marque exatamente uma coluna como título do conjunto.';
 $string['errortoomanysets'] = 'Conjuntos demais: no máximo {$a} conjuntos são permitidos.';
 $string['errorvaluetoolong'] = 'Valor muito longo: cada valor é limitado a {$a} caracteres.';
+$string['modedictionary'] = 'Dicionário, só códigos';
+$string['modedictionaryhelp'] = 'Códigos do dicionário; guarda o código, exibe o nome.';
+$string['modedictionaryopen'] = 'Dicionário, qualquer código';
+$string['modedictionaryopenhelp'] = 'Sugere do dicionário, mas aceita um código novo.';
+$string['modefree'] = 'Texto livre';
+$string['modefreehelp'] = 'Qualquer texto de até 1.024 caracteres.';
+$string['modepattern'] = 'Padrão';
+$string['modepatternhelp'] = 'Máscara e/ou expressão regular (customfield_pattern).';
+$string['modepatternunavailable'] = 'Padrão (plugin não instalado)';
+$string['modepatternunavailablehelp'] = 'Os valores são mantidos como digitados.';
+$string['movedown'] = 'Mover {$a} para baixo';
+$string['moveup'] = 'Mover {$a} para cima';
 $string['newcode'] = 'Código novo, ainda sem nome';
+$string['newcolumn'] = 'Coluna {$a}';
+$string['nomatchstrict'] = 'Nenhum resultado. Esta coluna aceita apenas códigos da lista.';
+$string['parentmismatch'] = 'A coluna pai escolhida não usa "{$a->parentdomain}", o dicionário que contém os pais de "{$a->domain}".';
+$string['parentnone'] = 'Nenhuma';
+$string['patternmask'] = 'Máscara';
+$string['patternpreset'] = 'Formato';
+$string['patternregex'] = 'Expressão regular';
+$string['patternregexerror'] = 'Mensagem quando a expressão não corresponde';
+$string['patternregexerrorhint'] = 'Opcional; caso contrário, é exibida uma mensagem genérica.';
+$string['patternregexhint'] = '(opcional, ancorada no valor inteiro)';
+$string['patternregexplaceholder'] = 'ex.: [A-Z]{3}-\d{6}';
+$string['patternstoreformat'] = 'Armazenar como';
+$string['patternstoremasked'] = 'Com máscara (123.456.789-09)';
+$string['patternstoreraw'] = 'Sem máscara (12345678909)';
+$string['patterntokens'] =
+    'Símbolos: 9 dígito · A letra · * letra ou dígito · alternativas separadas por |. As regras vêm do customfield_pattern; no Moodle 4.5 e 5.0 este modo não é oferecido.';
 $string['pluginname'] = 'Motor de conjuntos repetíveis';
 $string['privacy:metadata'] = 'O motor de conjuntos repetíveis não armazena dados pessoais: cada plugin que o usa armazena, exporta e apaga os seus.';
+$string['removecolumn'] = 'Remover coluna';
+$string['removecolumnlocked'] = 'Há usuários com valores nesta coluna, por isso ela não pode ser removida.';
 $string['removeset'] = 'Remover conjunto';
 $string['repeatableset'] = 'Conjunto {$a}';
+$string['rolerequired'] = 'Obrigatória';
+$string['rolerequiredlabel'] = 'Obrigatória em todo conjunto';
+$string['rolesubline'] = 'Linha auxiliar';
+$string['rolesublinelabel'] = 'Exibir na linha auxiliar';
+$string['roletitle'] = 'Título';
+$string['roletitlelabel'] = 'Título do conjunto';
 $string['searchplaceholder'] = 'Digite um nome ou um código';
 $string['setcolumn'] = 'CONJUNTO';
+$string['summarysubline'] = 'Linha auxiliar {$a->count}/{$a->max}';
+$string['summarytitle'] = 'Título: {$a}';
 $string['synchronisedat'] = 'Sincronizado em: {$a}';
+$string['usecode'] = 'Usar o código "{$a}"';

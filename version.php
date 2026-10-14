@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2026042001;
+$plugin->version   = 2026042002;
 $plugin->requires  = 2026042000;
 $plugin->component = 'local_repeatable';
 $plugin->maturity  = MATURITY_ALPHA;

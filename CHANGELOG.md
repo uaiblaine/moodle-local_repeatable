@@ -42,3 +42,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - Their tests (`widget_test`, `column_editor_test`, `sets_renderer_test`, written against the
     engine classes from the field's form-level tests), `bootstrap_compat_test`, and the gates
     ES1-ES5, X1, D1, K1, B10, B11, B18, PT5, PT12 and PT13.
+- The field's JavaScript, moved from `profilefield_repeatable` (stage C2) with only component,
+  module path and CSS class prefix renames: `local_repeatable/repeatable` (the edit widget),
+  `local_repeatable/markup`, `local_repeatable/dictionary_transport` (the only module that imports
+  `local_dictionaries`, loaded by the widget only for a searched column),
+  `local_repeatable/columneditor` (it enhances `textarea[data-region="local-repeatable-schema"]`)
+  and `local_repeatable/displayaccordion`, built in `amd/build`. The strings they read (the column
+  editor's and the dictionary search's) are copied unchanged in English and Portuguese.
