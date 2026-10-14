@@ -88,7 +88,8 @@ classes/form/widget.php            edit widget: template context, columns JSON, 
 classes/form/column_editor.php     definition editor: textarea attributes, canonical JSON, schema errors, locked keys
 classes/output/sets_renderer.php   display: accordion or plain list, label prefetch, pattern formatting
 classes/local/projection/          store (adapter's table + owner column), source (adapter contract), projector (sync, is_current, reproject_*)
-classes/reportbuilder/local/entities/sets.php  abstract entity: one row per set; subclass gives table, field id, schema, availability
+classes/reportbuilder/local/entities/sets.php  abstract entity: one row per set; subclass gives table, field id, schema, availability;
+                                                an adapter whose projection rows span several areas narrows filter options in filter_options_scope()
 templates/                         edit_form, display_accordion, display_plain (double stashes)
 styles.css                         every rule under a local-repeatable-* class (no Bootstrap 5 utility)
 amd/src/                           repeatable.js (widget), markup.js, dictionary_transport.js, columneditor.js, displayaccordion.js

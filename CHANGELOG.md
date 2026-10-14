@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## Unreleased
 
+### Changed
+
+- `reportbuilder\local\entities\sets`: the name-filter options are built by an instance method and
+  read an overridable `filter_options_scope()` (default: no extra condition, same options as
+  before), so an adapter whose projection rows span several areas lists only its own area's codes.
+
 ### Added
 
 - The engine's library half, moved from `profilefield_repeatable` (stage B1 of that plugin's

@@ -41,7 +41,9 @@ use local_repeatable\local\sql;
  * (the companion's label, with an autocomplete filter over the codes present) and "<key>_code";
  * a pattern column "<key>", shown as customfield_pattern formats it, filtered on the stored value.
  * {@see schema::report_identifiers()} names them. The owning datasource joins the projection
- * table per field so an owner with N sets yields N rows.
+ * table per field so an owner with N sets yields N rows. The filter options are listed from the
+ * projection table by field id; an adapter whose rows span several areas narrows them by overriding
+ * {@see self::filter_options_scope()}.
  *
  * @package    local_repeatable
  * @copyright  2026 Anderson Blaine
@@ -288,8 +290,8 @@ abstract class sets extends base {
                     $valueparams
                 ))
                     ->add_joins($this->get_joins())
-                    ->set_options_callback(static function () use ($table, $fieldid, $schema, $key, $domain): array {
-                        return self::name_filter_options($table, $fieldid, $schema, $key, $domain);
+                    ->set_options_callback(function () use ($table, $fieldid, $schema, $key, $domain): array {
+                        return $this->name_filter_options($table, $fieldid, $schema, $key, $domain);
                     });
 
                 [$codesql, $codeparams] = sql::column_value(
@@ -381,6 +383,23 @@ abstract class sets extends base {
     }
 
     /**
+     * An extra condition narrowing the projection rows the name-filter options are listed from.
+     *
+     * Report rows are narrowed by the owning datasource's joins, but the options are read from the
+     * projection table on its own, by field id. An adapter whose projection rows span several areas
+     * (a custom field shared across areas) overrides this so the options list only the codes of the
+     * area the report reads. The default adds nothing.
+     *
+     * @param string $alias The alias the projection table has in the options query.
+     * @return array{0: string, 1: array} SQL condition on the alias ('' for none) and its named
+     *     parameters; names come from {@see database::generate_param_name()} and values are bound,
+     *     never interpolated.
+     */
+    protected function filter_options_scope(string $alias): array {
+        return ['', []];
+    }
+
+    /**
      * Build name-filter options from the codes present in the data, labelled via the resolver.
      *
      * The option keys are the stored codes (so filtering happens on the code), while the
@@ -394,12 +413,12 @@ abstract class sets extends base {
      * @param string $domain Reference domain shortname; '' lists the codes unresolved.
      * @return array<string, string> Map of code to display label.
      */
-    protected static function name_filter_options(string $table, int $fieldid, schema $schema, string $key, string $domain): array {
+    protected function name_filter_options(string $table, int $fieldid, schema $schema, string $key, string $domain): array {
         global $DB;
 
         [$valuesql, $params] = sql::column_value(
             $DB,
-            'data',
+            'fo.data',
             $schema,
             $key,
             database::generate_param_name(),
@@ -407,11 +426,14 @@ abstract class sets extends base {
         );
         $params['fieldid'] = $fieldid;
 
+        [$scopesql, $scopeparams] = $this->filter_options_scope('fo');
+        $scopesql = trim($scopesql) === '' ? '' : " AND ({$scopesql})";
+
         $codes = $DB->get_fieldset_sql(
             "SELECT DISTINCT {$valuesql}
-               FROM {{$table}}
-              WHERE fieldid = :fieldid",
-            $params
+               FROM {{$table}} fo
+              WHERE fo.fieldid = :fieldid{$scopesql}",
+            $params + $scopeparams
         );
 
         $cleancodes = [];
