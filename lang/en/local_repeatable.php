@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['actioncolumn'] = 'ACTION';
+$string['addnewset'] = 'Add new set';
 $string['errorcodeinactive'] = 'Set {$a->set}: the code "{$a->code}" of {$a->column} is no longer offered.';
 $string['errorcodeparent'] = 'Set {$a->set}: {$a->column} "{$a->code}" does not belong to {$a->parent} "{$a->parentcode}".';
 $string['errorcodeparentmissing'] = 'Set {$a->set}: choose a value for {$a->parent} before {$a->column}.';
@@ -53,6 +55,11 @@ $string['errorsublinetitle'] = 'Column "{$a}" is the title and cannot also be in
 $string['errortitlecount'] = 'Mark exactly one column as the title of the set.';
 $string['errortoomanysets'] = 'Too many sets: at most {$a} sets are allowed.';
 $string['errorvaluetoolong'] = 'Value too long: each value is limited to {$a} characters.';
+$string['newcode'] = 'New code, no name yet';
 $string['pluginname'] = 'Repeatable sets engine';
 $string['privacy:metadata'] = 'The Repeatable sets engine stores no personal data: each plugin that uses it stores, exports and deletes its own.';
+$string['removeset'] = 'Remove set';
 $string['repeatableset'] = 'Set {$a}';
+$string['searchplaceholder'] = 'Type a name or a code';
+$string['setcolumn'] = 'SET';
+$string['synchronisedat'] = 'Synchronised at: {$a}';

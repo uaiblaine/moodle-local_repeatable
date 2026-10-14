@@ -1,0 +1,85 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_repeatable/display_accordion
+    @copyright 2026 Anderson Blaine
+
+    Repeatable profile field display as native <details>/<summary> accordion
+    with semantic <dl> body, optional collapsed-only subline and sync footer.
+
+    Example context (json):
+    {
+        "accordionid": "local-repeatable-display-1-2-field",
+        "fieldname": "Atribuições",
+        "hasfieldname": true,
+        "items": [
+            {
+                "bodyid": "local-repeatable-display-1-2-field-body-1",
+                "isopen": true,
+                "hasprimaryvalue": true,
+                "titlevalue": "Administraçao - 3ª serie A integral",
+                "hassubline": true,
+                "parts": [
+                    {"value": "Gestão de Operações", "isfirst": true},
+                    {"value": "Martha Calixto Cazagrande", "isfirst": false}
+                ],
+                "hasrows": true,
+                "rows": [
+                    {"label": "Disciplina", "value": "Gestão de Operações"},
+                    {"label": "Escola", "value": "Martha Calixto Cazagrande"}
+                ],
+                "hassync": true,
+                "syncvalue": "Synchronised at: 15/10/23 - 08:30"
+            }
+        ]
+    }
+}}
+<section
+    class="local-repeatable-display-accordion"
+    id="{{accordionid}}"
+    {{#hasfieldname}}aria-label="{{fieldname}}"{{/hasfieldname}}
+>
+    {{#items}}
+        <details class="local-repeatable-item"{{#isopen}} open{{/isopen}}>
+            <summary class="local-repeatable-summary" aria-controls="{{bodyid}}">
+                <span class="local-repeatable-title">{{titlevalue}}</span>
+                {{#hassubline}}
+                    <span class="local-repeatable-title-divider" aria-hidden="true"></span>
+                    <span class="local-repeatable-subline">
+                        {{#parts}}
+                            {{^isfirst}}<span class="local-repeatable-subline-dot" aria-hidden="true">·</span>{{/isfirst}}
+                            <span class="local-repeatable-subline-item{{#isfirst}} local-repeatable-subline-primary{{/isfirst}}">{{value}}</span>
+                        {{/parts}}
+                    </span>
+                {{/hassubline}}
+            </summary>
+            <div class="local-repeatable-body" id="{{bodyid}}">
+                {{#hasrows}}
+                    <dl class="local-repeatable-dl">
+                        {{#rows}}
+                            <dt>{{label}}</dt>
+                            <dd>{{value}}</dd>
+                        {{/rows}}
+                    </dl>
+                {{/hasrows}}
+                {{#hassync}}
+                    <p class="local-repeatable-sync">{{syncvalue}}</p>
+                {{/hassync}}
+            </div>
+        </details>
+    {{/items}}
+</section>

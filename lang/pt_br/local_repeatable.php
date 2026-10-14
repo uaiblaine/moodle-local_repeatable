@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['actioncolumn'] = 'AÇÃO';
+$string['addnewset'] = 'Adicionar novo conjunto';
 $string['errorcodeinactive'] = 'Conjunto {$a->set}: o código "{$a->code}" de {$a->column} não é mais oferecido.';
 $string['errorcodeparent'] = 'Conjunto {$a->set}: {$a->column} "{$a->code}" não pertence a {$a->parent} "{$a->parentcode}".';
 $string['errorcodeparentmissing'] = 'Conjunto {$a->set}: escolha um valor para {$a->parent} antes de {$a->column}.';
@@ -53,6 +55,11 @@ $string['errorsublinetitle'] = 'A coluna "{$a}" é o título e não pode estar t
 $string['errortitlecount'] = 'Marque exatamente uma coluna como título do conjunto.';
 $string['errortoomanysets'] = 'Conjuntos demais: no máximo {$a} conjuntos são permitidos.';
 $string['errorvaluetoolong'] = 'Valor muito longo: cada valor é limitado a {$a} caracteres.';
+$string['newcode'] = 'Código novo, ainda sem nome';
 $string['pluginname'] = 'Motor de conjuntos repetíveis';
 $string['privacy:metadata'] = 'O motor de conjuntos repetíveis não armazena dados pessoais: cada plugin que o usa armazena, exporta e apaga os seus.';
+$string['removeset'] = 'Remover conjunto';
 $string['repeatableset'] = 'Conjunto {$a}';
+$string['searchplaceholder'] = 'Digite um nome ou um código';
+$string['setcolumn'] = 'CONJUNTO';
+$string['synchronisedat'] = 'Sincronizado em: {$a}';
