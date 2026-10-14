@@ -32,13 +32,15 @@ and calls the engine for everything that does not depend on where the values liv
 Requirements
 ------------
 
-- Moodle 5.2 (development branch; the other Moodle versions get their own branch at release)
+- Moodle 4.5 LTS (branch `MOODLE_405_STABLE`; releases `v4.5-rN`), PHP 8.1 or later. Other Moodle
+  versions have their own branches.
+- PostgreSQL 13+, MySQL 8.0+ or MariaDB 10.6.7+, as Moodle 4.5 requires.
 - Optional: [local_dictionaries](https://github.com/uaiblaine/moodle-local_dictionaries), for
   dictionary columns (code lists with labels). Without it, dictionary columns are typed as text and
   their codes are not checked.
-- Optional: [customfield_pattern](https://github.com/uaiblaine/moodle-customfield_pattern) (Moodle 5.1
-  or later), for pattern columns (masks and regular expressions). Without it, no new pattern column can
-  be added and stored pattern values are kept and shown as typed.
+- customfield_pattern, which provides pattern columns (masks and regular expressions), supports
+  Moodle 5.1 and later only: on this branch no new pattern column can be added, and stored pattern
+  values are kept and shown as typed.
 
 Neither companion is a declared dependency: every call to them checks that they are installed.
 
