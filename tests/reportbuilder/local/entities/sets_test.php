@@ -283,6 +283,78 @@ final class sets_test extends \advanced_testcase {
     }
 
     /**
+     * The options query reads only the rows an adapter's scope admits; the default scope admits every row of the field.
+     */
+    public function test_name_filter_options_follow_the_adapters_scope(): void {
+        global $DB;
+
+        $this->store_set(self::FIELDID, ['diretoria' => 'in-area', 'escola' => '1']);
+        $inarea = (int)$DB->get_field(test_source::TABLE, 'MAX(dataid)', [], MUST_EXIST);
+        $this->store_set(self::FIELDID, ['diretoria' => 'other-area', 'escola' => '2']);
+        $schema = $this->schema();
+
+        $scoped = new class (test_source::TABLE, self::FIELDID, $schema, $inarea) extends sets {
+            /** @var schema The schema the adapter reads. */
+            private schema $fixtureschema;
+
+            /** @var int The only data id the scope admits. */
+            private int $dataid;
+
+            /**
+             * Constructor.
+             *
+             * @param string $table
+             * @param int $fieldid
+             * @param schema $schema
+             * @param int $dataid
+             */
+            public function __construct(string $table, int $fieldid, schema $schema, int $dataid) {
+                parent::__construct($table, $fieldid);
+                $this->fixtureschema = $schema;
+                $this->dataid = $dataid;
+            }
+
+            /**
+             * The fixture schema.
+             *
+             * @return schema
+             */
+            protected function get_schema(): schema {
+                return $this->fixtureschema;
+            }
+
+            /**
+             * Always available.
+             *
+             * @return bool
+             */
+            protected function is_available(): bool {
+                return true;
+            }
+
+            /**
+             * Admit one data id, with a bound parameter.
+             *
+             * @param string $alias
+             * @return array
+             */
+            protected function filter_options_scope(string $alias): array {
+                return ["{$alias}.dataid = :scopedataid", ['scopedataid' => $this->dataid]];
+            }
+        };
+        $scoped->set_entity_name('sets');
+        $scoped->initialise();
+
+        $this->assertSame(['in-area' => 'in-area'], $scoped->get_filter('diretoria_name')->get_options());
+
+        $default = $this->entity($schema, true);
+        $this->assertSame(
+            ['in-area' => 'in-area', 'other-area' => 'other-area'],
+            $default->get_filter('diretoria_name')->get_options()
+        );
+    }
+
+    /**
      * A code costs one resolver lookup however many rows show it, and an unresolved code too.
      */
     public function test_resolved_name_lookups_are_memoised_including_misses(): void {
