@@ -10,8 +10,12 @@ This plugin is a library. It has no pages, settings, capabilities, tables or tas
 does nothing on a site by itself: its widgets render inside the pages of the plugins that store
 repeatable values, which use it:
 
-- `profilefield_repeatable` (the "Repeatable set" user profile field);
-- `customfield_repeatable` (planned: the same value as a custom field of courses, cohorts and groups).
+- [profilefield_repeatable](https://github.com/uaiblaine/moodle-profilefield_repeatable) (the
+  "Repeatable set" user profile field);
+- [customfield_repeatable](https://github.com/uaiblaine/moodle-customfield_repeatable) (the same value
+  as a custom field of courses, cohorts, groups and any other area that has custom fields).
+
+Both declare this plugin as a dependency in their `version.php`; it has no dependency of its own.
 
 Each of those plugins is an *adapter*: it owns the stored values, decides who may see and edit them,
 and calls the engine for everything that does not depend on where the values live. The engine owns:
@@ -56,11 +60,40 @@ See http://docs.moodle.org/en/Installing_plugins for details on installing Moodl
 There is nothing to configure.
 
 
-Privacy
--------
+Settings
+--------
 
-The engine stores no personal data. The plugins that use it declare, export and delete the values
-they store.
+None. The engine has no `settings.php` and no admin page; each field's columns are defined in that
+field's own settings, through the column editor the adapter shows.
+
+
+Capabilities
+------------
+
+None. The engine declares no capability and checks none: who may see, edit or report on a value is
+decided by the plugin that stores it, which passes that decision to the engine.
+
+
+Data stored
+-----------
+
+The engine has no database table, setting, user preference, cache, file area, event or scheduled
+task, and stores no personal data: its privacy provider declares exactly that.
+
+The values it handles belong to the plugin that uses it. That plugin keeps the stored payloads in
+its own tables, together with the per-set rows Report Builder lists, which the engine's projection
+writer keeps in step with the payloads in the table the plugin names. The plugin declares those
+tables, and a data request exports (each payload written through the engine's exporter) and a
+deletion request deletes them through that plugin's own privacy provider; uninstalling the engine
+removes nothing, since it has nothing of its own.
+
+
+Translations
+------------
+
+The English strings ship in the package. The Brazilian Portuguese translation is maintained in this
+repository (`lang/pt_br`) and reaches sites through [AMOS](https://lang.moodle.org/), as the plugins
+directory requires; it is left out of the release package.
 
 
 License

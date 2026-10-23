@@ -148,6 +148,31 @@ final class widget_test extends \advanced_testcase {
     }
 
     /**
+     * The set and action headers print their sentence-case strings and read in capitals through the
+     * caps class, which the column-name headers never carry: those keep the administrator's case.
+     */
+    public function test_only_the_widget_headers_are_set_in_capitals(): void {
+        $this->resetAfterTest();
+
+        $html = $this->widget(['Notes', 'Role'])->render('Repeatable test', self::IDS);
+
+        $this->assertSame(4, preg_match_all('~<th\b[^>]*>.*?</th>~s', $html, $cells));
+        $headers = [];
+        foreach ($cells[0] as $cell) {
+            $this->assertSame(1, preg_match('~^<th\b([^>]*)>(.*?)</th>$~s', $cell, $parts));
+            $headers[] = [strip_tags($parts[2]), str_contains($parts[1], 'local-repeatable-head-caps')];
+        }
+        $this->assertSame([
+            [get_string('setcolumn', 'local_repeatable'), true],
+            ['Notes', false],
+            ['Role', false],
+            [get_string('actioncolumn', 'local_repeatable'), true],
+        ], $headers);
+        $this->assertSame(['Set', 'Action'], [get_string('setcolumn', 'local_repeatable'),
+            get_string('actioncolumn', 'local_repeatable')]);
+    }
+
+    /**
      * The widget gives its module each column's key, plain label, required flag and dictionary
      * properties, and marks required headers.
      */
