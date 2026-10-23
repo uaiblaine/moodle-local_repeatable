@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [v5.1-r2] - 2026-10-23
+
+Moodle 5.1 branch (`MOODLE_501_STABLE`): version `2025100601`, release `v5.1-r2`.
+The plugins directory submission guidelines, applied as on the rest of the fleet.
+
+### Fixed
+
+- `lang/en` is in sentence case: `setcolumn` is "Set" and `actioncolumn` "Action" (Portuguese
+  "Conjunto" and "Ação"). The edit widget still shows both header cells in capitals, through the
+  new `local-repeatable-head-caps` class (`text-transform: uppercase`); the column-name headers do
+  not get it and keep the case the administrator gave them.
+- The README no longer calls `customfield_repeatable` planned: it names both plugins that depend on
+  the engine, with links.
+
+### Added
+
+- `LICENSE`, a copy of `COPYING.txt` (GPL v3): the plugins directory looks for a licence file in the
+  package.
+- `tests/marketplace_readiness_test.php`, the fleet's file-reading check of the directory rules
+  (licence files, English-only package, data-only lang files, README names, setting names, scoped
+  CSS, boilerplate, privacy cover of stamped core rows), and a widget test of the header cells.
+- README sections "Settings", "Capabilities", "Data stored" (the engine stores nothing; the adapters
+  own, export and delete the values and the projection rows) and "Translations".
+- Mutation gates `MK1`-`MK4` for the release package and the header cells.
+
+### Changed
+
+- `lang/pt_br` leaves the release package (`export-ignore`): the plugins directory accepts English
+  strings only, and the Brazilian Portuguese translation reaches sites through AMOS. It stays
+  maintained in this repository.
+
 ## [v5.1-r1] - 2026-10-14
 
 Moodle 5.1 branch (`MOODLE_501_STABLE`): version `2025100600`, release `v5.1-r1`,

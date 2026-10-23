@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['actioncolumn'] = 'AÇÃO';
+$string['actioncolumn'] = 'Ação';
 $string['addcolumn'] = 'Adicionar coluna';
 $string['addnewset'] = 'Adicionar novo conjunto';
 $string['choosefirst'] = 'Escolha antes um valor para {$a}.';
@@ -125,7 +125,7 @@ $string['rolesublinelabel'] = 'Exibir na linha auxiliar';
 $string['roletitle'] = 'Título';
 $string['roletitlelabel'] = 'Título do conjunto';
 $string['searchplaceholder'] = 'Digite um nome ou um código';
-$string['setcolumn'] = 'CONJUNTO';
+$string['setcolumn'] = 'Conjunto';
 $string['setnumber'] = 'Número do conjunto';
 $string['summarysubline'] = 'Linha auxiliar {$a->count}/{$a->max}';
 $string['summarytitle'] = 'Título: {$a}';
