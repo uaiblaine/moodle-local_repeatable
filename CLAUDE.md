@@ -12,8 +12,8 @@ from the rule.
 Plugin context: a Moodle **local** plugin ("Repeatable sets engine"), the library behind
 "repeatable sets" values (any number of sets, each a row of typed columns). It owns **no tables,
 settings, capabilities, events, tasks or web services**, and its privacy provider is a
-`null_provider`. The plugins that store values are adapters: `profilefield_repeatable` today,
-`customfield_repeatable` later. The extraction plan, stage by stage, is
+`null_provider`. The plugins that store values are adapters: `profilefield_repeatable` and
+`customfield_repeatable`, both with a `version.php` dependency on the engine (the README names them). The extraction plan, stage by stage, is
 `moodle-profilefield_repeatable/docs/engine-extraction-design.md`; this repository holds what has
 moved so far (stages B1-B2: schema, payload, SQL, bridges, stored values, privacy exporter, validator;
 C1-C2: edit widget, column editor, display renderer, templates, styles, AMD modules; C3: projection
