@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['actioncolumn'] = 'ACTION';
+$string['actioncolumn'] = 'Action';
 $string['addcolumn'] = 'Add column';
 $string['addnewset'] = 'Add new set';
 $string['choosefirst'] = 'Choose a value for {$a} first.';
@@ -122,7 +122,7 @@ $string['rolesublinelabel'] = 'Show in subline';
 $string['roletitle'] = 'Title';
 $string['roletitlelabel'] = 'Title of the set';
 $string['searchplaceholder'] = 'Type a name or a code';
-$string['setcolumn'] = 'SET';
+$string['setcolumn'] = 'Set';
 $string['setnumber'] = 'Set number';
 $string['summarysubline'] = 'Subline {$a->count}/{$a->max}';
 $string['summarytitle'] = 'Title: {$a}';
