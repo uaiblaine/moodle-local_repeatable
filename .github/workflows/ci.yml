@@ -37,7 +37,7 @@ jobs:
   #
   # The engine has no hard dependency. Its soft companions are installed so that the tests
   # needing them run instead of skipping: local_dictionaries from its branch for the same Moodle
-  # version, customfield_pattern (Moodle 5.1 and later) from its one branch, main.
+  # version, customfield_pattern (Moodle 5.1 and later) from its branch for the same version too.
   ci-503:
     name: Moodle 5.03
     uses: uaiblaine/moodle-workflows/.github/workflows/moodle-plugin-ci.yml@main
@@ -46,4 +46,4 @@ jobs:
       moodle-core-branch: MOODLE_503_STABLE
       plugin-dependencies: |
         uaiblaine/moodle-local_dictionaries,MOODLE_503_STABLE
-        uaiblaine/moodle-customfield_pattern,main
+        uaiblaine/moodle-customfield_pattern,MOODLE_503_STABLE
